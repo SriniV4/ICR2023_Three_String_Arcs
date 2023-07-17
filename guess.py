@@ -16,6 +16,7 @@ delta = []
 bestDesign = None
 bestPercentage = None
 parameters = []
+temporaryParameter = []
 numParams = 0
 def getNewDesign(bitmask):#Perturbation
 	newParams = [i for i in parameters]
@@ -37,7 +38,7 @@ def getNewDesign(bitmask):#Perturbation
 	for i in range(8,9):
 		newParams[i] = min(newParams[i] , COMBounds[1])
 		newParams[i] = max(newParams[i] , COMBounds[0])
-	return mTSD(newParams)
+	return mTSD(newParams) , newParams
 def makeDelta():
 	delta.clear()
 	for i in range(2):
@@ -56,6 +57,20 @@ def makeDelta():
 		r = random.uniform(0,percentage/100)
 		r*=COMBounds[1]-COMBounds[0]
 		delta.append(r)	
+def generateRandomDesign():
+	designParameters = []
+	for i in range(2):
+		designParameters.append(random.uniform(angleBounds[0] ,angleBounds[1]))
+	for i in range(3):
+		designParameters.append(random.uniform(densityBounds[0] ,densityBounds[1]))
+	for i in range(3):
+		designParameters.append(random.uniform(lengthBounds[0] ,lengthBounds[1]))
+	designParameters.append(random.uniform(COMBounds[0] , COMBounds[1]))
+	bestDesign = mTSD(designParameters)
+	print(bestDesign.toString())
+	print(bestDesign.tensions)
+	bestPercentage = getPercent(bestDesign , domain)
+	numParams = len(designParameters)
 def read():
 	file = open("best.txt", "r")
 	#File Format: Design in format [Theta , Gamma , D1 , D2 , D3, L1 , L2 , L3 , COM]
@@ -64,16 +79,25 @@ def read():
 	bestPercentage = float(f.read())
 	numParams = len(parameters)
 
-def print():
+def write(roots):
 	with open("best.txt", "w") as f:
 		print(bestDesign.toString(), file=f)
 		print(bestPercentage, file=f)
-		print(*sorted(cheb_roots(bestDesign.getFunction() , domain)), file=f)
+		print(*roots, file=f)
+
 def SPSA(iterations):
+	#read() #uncomment if you want to read design from file
+	generateRandomDesign()
+	return
 	for i in range(iterations):
 		delta = makeDelta()
-		#read() #uncomment if you want to read design and print each iteration
 		for mask in range(1 << numParams):
-			newDesign = getNewDesign(mask)
+			newDesign , newParams = getNewDesign(mask)
 			roots , newPercentage = getPercent(newDesign)  
+			if(newPercentage > bestPercentage):
+				bestPercentage = newPercentage
+				bestDesign = newDesign
+				temporaryParameter = newParams
+		parameters = temporaryParameter
 	print()
+SPSA(1)
