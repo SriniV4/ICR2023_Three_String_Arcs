@@ -1,3 +1,4 @@
+# Design class with a few methods to find roots,percentage accuracy,etc.
 import pychebfun
 import math
 import numpy
@@ -50,7 +51,7 @@ def getPercent(design , domain):
 	s = design.getFunction()
 	roots = cheb_roots(s, domain)
 	roots.sort()
-	return percentage(roots)
+	return roots , percentage(roots)
 def makeThreeStringDesign(allParams):
 	theta , gamma = allParams[0:2] # Angle 1 is Theta , Angle 2 is Gamma
 	densities = allParams[2:5]
