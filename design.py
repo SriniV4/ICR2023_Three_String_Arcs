@@ -43,8 +43,8 @@ def percentage(roots):
 	numRoots = 5
 	if(len(roots)<numRoots):
 		return 1
-	for i in range(1 , n*2 , 2):
-		diff = i - roots[i//2]/roots[0]
+	for i in range(1 , numRoots*2 , 2):
+		diff = abs(i - roots[i//2]/roots[0])
 		totalError += (diff/i)
 	return totalError/numRoots
 def getPercent(design , domain):
@@ -64,10 +64,20 @@ def makeThreeStringDesign(allParams):
 	t2 = abs(t2)
 	return Design(3 , [theta , gamma] , [t1,t2,t3] , densities , lengths , centerMass) 	
 def test():
+	lengths = [5,10,1]
+	densities = [0.001, 0.0015, 0.001]
+	tensions = [180, 185, 180]
+	centerMass = 0
+	"""
 	lengths = [7.729248288664657, 7.892457169530038, 1]
 	densities = [0.2777940075904079, 0.22263848609368753, 0.8297746591606884]
 	tensions = [7.24497034634028, 6.57358320536199, 23.23799760493053]
 	centerMass = 0.8494808959423903
+		lengths = [5,10,1]
+		densities = [0.001, 0.0015, 0.001]
+		tensions = [180, 185, 180]
+		centerMass = 0
+	"""
 	numStrings = 3
 	testDesign = Design(numStrings , [0,0] , tensions , densities , lengths, centerMass)
 	s = testDesign.getFunction()
