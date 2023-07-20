@@ -67,7 +67,7 @@ def getDomain(someDesign):
 	rightBound = numpy.inf
 	for i in range(3):
 		rightBound = min(rightBound , numpy.pi/(someDesign.lengths[i]*numpy.sqrt(someDesign.densities[i]/someDesign.tensions[i])))
-	return [0,rightBound]
+	return [1e-6,rightBound]
 def generateRandomDesign():
 	designParameters = []
 	for i in range(2):
@@ -135,4 +135,7 @@ def SPSA(iterations):
 		print()
 		print("best roots:" , end=' ')
 		print(roots)
-SPSA(1000)
+		print(roots/roots[0])
+		print(bestPercentage)
+		print()
+SPSA(100000)

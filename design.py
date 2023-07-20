@@ -42,7 +42,7 @@ def percentage(roots):
 	totalError = 0
 	numRoots = 5
 	if(len(roots)<numRoots):
-		return 1
+		return numpy.inf
 	for i in range(1 , numRoots*2 , 2):
 		diff = abs(i - roots[i//2]/roots[0])
 		totalError += (diff/i)
@@ -99,6 +99,9 @@ def test():
 	# Display the plot
 	plt.show()												
 	
+def main():
+	a = [1,2,3,4,5,6]
+	print(percentage(a) , percentage([1,3,5,7,9]))
 if __name__ == "__main__":
-    test()
+    main()
 
