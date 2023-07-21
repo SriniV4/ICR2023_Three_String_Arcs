@@ -35,10 +35,10 @@ python3 guess.py
 ```
 ## SPSA.py
 
-`SPSA.py` is similar to `guess.py`, but instead of using a bitmask to determine the direction, it only has two directions, all negative or all positive (0b000... or 0b1111...). The same imports are required, and to run it, you do:
+`SPSA.py` is similar to `guess.py`, but instead of using a bitmask to determine the direction, it only has two directions, all negative or all positive (0b000... or 0b1111...). <br>
+The same imports are required, and to run it, you do:
 
 ```sh
 python3 SPSA.py
 ```
-<br>
 Please make sure to have all the necessary files and libraries installed before running the programs. Happy harmonics designing!
