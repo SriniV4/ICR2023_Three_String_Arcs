@@ -60,8 +60,6 @@ def makeThreeStringDesign(allParams):
 	t3 = 1
 	t2 = 1/(numpy.cos(theta)*(1 + (numpy.sin(theta)*numpy.cos(gamma)/(numpy.sin(gamma)*numpy.cos(theta)))))
 	t1 = 1/(numpy.cos(gamma)*(1 + (numpy.sin(gamma)*numpy.cos(theta)/(numpy.sin(theta)*numpy.cos(gamma)))))
-	t1 = abs(t1)
-	t2 = abs(t2)
 	return Design(3 , [theta , gamma] , [t1,t2,t3] , densities , lengths , centerMass) 	
 def test():
 	lengths = [5,10,1]
@@ -100,7 +98,7 @@ def test():
 	plt.show()												
 	
 def main():
-	a = [1,2,3,4,5,6]
+	a = [1,2,3,4,5]
 	print(percentage(a) , percentage([1,3,5,7,9]))
 if __name__ == "__main__":
     main()
