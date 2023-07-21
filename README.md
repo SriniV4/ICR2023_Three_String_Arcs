@@ -5,7 +5,7 @@ The primary focus is on achieving the first 5 harmonics.
 
 ## Derivations of Ratios
 
-[Derivations_of_Ratios.pdf](Derivation_of_ratios) is a short derivation for the ratios of tensions (τ₁, τ₂, τ₃) in terms of angles θ and γ.
+[Derivations_of_Ratios.pdf](Derivation_of_Ratios) is a short derivation for the ratios of tensions (τ₁, τ₂, τ₃) in terms of angles θ and γ.
 
 ## design.py
 
