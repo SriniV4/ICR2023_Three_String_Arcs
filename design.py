@@ -12,6 +12,16 @@ class Design:
 		self.lengths = lengths
 		self.centerMass = centerMass
 		self.angles = angles
+	def getParameters(self):
+		total = []
+		for i in self.angles:
+			total.append(i)
+		for i in self.densities:
+			total.append(i)
+		for i in self.lengths:
+			total.append(i)
+		total.append(self.centerMass)
+		return total
 	def getFunction(self):
 		def s(wavelength):
 			def f(wavelength):
@@ -36,17 +46,26 @@ class Design:
 		return *self.angles , *self.densities , *self.lengths , self.centerMass
 def cheb_roots(function, domain):  
     f_se_cheb = pychebfun.Chebfun.from_function(function, domain=domain)
-
     return f_se_cheb.roots()
 def percentage(roots):
-	totalError = 0
-	numRoots = 5
-	if(len(roots)<numRoots):
-		return numpy.inf
-	for i in range(1 , numRoots*2 , 2):
-		diff = abs(i - roots[i//2]/roots[0])
-		totalError += (diff/i)
-	return totalError/numRoots
+    if len(roots) < 2:
+        return 0
+    totalError = 0
+    for i in range(len(roots)):
+        # Assuming the reference value is (2*i + 1) * start
+        reference_value = (2 * i + 1)
+        observed_value = roots[i]/roots[0]
+        diff = abs(observed_value - reference_value)
+        totalError += (diff / reference_value) * 100
+    
+    return totalError / len(roots)
+	#numRoots = 5
+	#if(len(roots)<numRoots):
+#		return numpy.inf
+#	for i in range(1 , numRoots*2 , 2):
+#		diff = abs(i - roots[i//2]/roots[0])
+#		totalError += (diff/i)
+#	return totalError/numRoots
 def getPercent(design , domain):
 	s = design.getFunction()
 	roots = cheb_roots(s, domain)
@@ -57,15 +76,15 @@ def makeThreeStringDesign(allParams):
 	densities = allParams[2:5]
 	lengths = allParams[5:8]
 	centerMass = allParams[-1]
-	t3 = 1
-	t2 = 1/(numpy.cos(theta)*(1 + (numpy.sin(theta)*numpy.cos(gamma)/(numpy.sin(gamma)*numpy.cos(theta)))))
-	t1 = 1/(numpy.cos(gamma)*(1 + (numpy.sin(gamma)*numpy.cos(theta)/(numpy.sin(theta)*numpy.cos(gamma)))))
+	t3 = 5
+	t2 = t3/(numpy.cos(theta)*(1 + (numpy.sin(theta)*numpy.cos(gamma)/(numpy.sin(gamma)*numpy.cos(theta)))))
+	t1 = t3/(numpy.cos(gamma)*(1 + (numpy.sin(gamma)*numpy.cos(theta)/(numpy.sin(theta)*numpy.cos(gamma)))))
 	return Design(3 , [theta , gamma] , [t1,t2,t3] , densities , lengths , centerMass) 	
 def test():
 	lengths = [5,10,1]
 	densities = [0.001, 0.0015, 0.001]
 	tensions = [180, 185, 180]
-	centerMass = 0
+	centerMass = 10000
 	"""
 	lengths = [7.729248288664657, 7.892457169530038, 1]
 	densities = [0.2777940075904079, 0.22263848609368753, 0.8297746591606884]
@@ -101,5 +120,5 @@ def main():
 	a = [1,2,3,4,5]
 	print(percentage(a) , percentage([1,3,5,7,9]))
 if __name__ == "__main__":
-    main()
+   test()
 

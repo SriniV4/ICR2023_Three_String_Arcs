@@ -110,20 +110,21 @@ def SPSA(iterations):
 	global roots
 	global temporaryParameter
 	generateRandomDesign()
-	#print(bestPercentage)
-	#print("start roots:" , end=' ')
-	#print(roots)
+	print(bestPercentage)
+	print("start roots:" , end=' ')
+	print(roots)
 	for i in range(iterations):
 		delta = makeDelta()
 		tempRoots = roots
 		for mask in range(1 << numParams):
 			newDesign , newParams = getNewDesign(mask)
 			rroots , newPercentage = getPercent(newDesign , getDomain(newDesign))  
-		#	print("roots:" , end=' ')
-		#	print(rroots)
-		#	print("design:" , end=' ')
-		#	print(newParams)
+			print("roots:" , end=' ')
+			print(rroots)
+			print("design:" , end=' ')
+			print(newParams)
 			if(newPercentage < bestPercentage):
+				print(tempRoots)
 				bestPercentage = newPercentage
 				bestDesign = newDesign
 				temporaryParameter = newParams
@@ -131,11 +132,11 @@ def SPSA(iterations):
 		if(len(temporaryParameter)):
 			parameters = temporaryParameter
 		roots = tempRoots
-		#print()
-		#print()
-		#print("best roots:" , end=' ')
-		#print(roots)
+		print()
+		print()
+		print("best roots:" , end=' ')
+		print(roots)
 		print(roots/roots[0])
-		#print(bestPercentage)
-		#print()
-SPSA(100000)
+		print(bestPercentage)
+		print()
+SPSA(1)
