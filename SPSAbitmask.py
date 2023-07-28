@@ -70,7 +70,8 @@ def graphSpectrum(spectrum):
 		plt.axhline(y = i*2+1, color = colors[i], linestyle = '-')
 		plt.scatter([j for j in range(len(spectrum))] , spectrum[:,i] , color = colors[i])
 	plt.show()
-	
+def linearFunction(percent):
+	return percent*100 if percent*100<=100 else 100
 def SPSA(iterations):
 	bestDesign = generateRandom()
 	bestRoots = cr(bestDesign.getFunction() , getDomain(bestDesign)) 
@@ -79,19 +80,29 @@ def SPSA(iterations):
 	bestPercentage = getSpectrumPercentage(bestSpectrum)
 	lastParameters = bestDesign.getParameters()
 	count = 0
-	spectrumGraph = np.zeros((iterations , 5))
-	file1 = open("all.txt", "w")
+	threshold = 5000
+	spectrumGraph = np.zeros((iterations+1 , 5))
+	spectrumGraph[0] = bestSpectrum[0:5]
+	# [Theta , Gamma , L1 , L2 , L3 , D1 , D2 , D3 , COM]
 	for i in range(iterations):
 		print("Iteration: " , i)
 		print("Best Parameters: " , bestDesign.getParameters())
 		print("Best Spectrum: " , bestSpectrum)
+		print("Best Percentage:" , bestPercentage)
 		print(count)
 		print()
-		delta = makeDelta(10)
+		delta = makeDelta(linearFunction(bestPercentage))
+		#delta = makeDelta(quadraticFunction(bestPercentage)) # Uncomment this for quadratic percentage
+		temporaryDesign = bestDesign
+		temporarySpectrum = bestSpectrum
+		temporaryPercentage = bestPercentage
+		temporaryRoots = bestRoots
+		# 101010100
 		for mask in range(1 << len(delta)):
 			newParameters = applyDelta(delta , mask , bestDesign)
 			#print("New parameters: " , newParameters)
 			newDesign = makeDesign([newParameters[i] for i in range(0,2)] , [newParameters[i] for i in range(2,5)] , [newParameters[i] for i in range(5,8)] , newParameters[8])
+			# [.01 , .01  , .023 ,.0123 , 2 , 3]
 			newRoots = cr(newDesign.getFunction() , getDomain(newDesign))
 			newRoots.sort()
 			#print("New Roots: " , newRoots)
@@ -100,12 +111,17 @@ def SPSA(iterations):
 			newPercentage = getSpectrumPercentage(newSpectrum)
 			#print("New Percentage: " , newPercentage)
 			#print()
-			if(newPercentage < bestPercentage):
-				bestPercentage = newPercentage
-				bestRoots = newRoots
-				bestSpectrum = newSpectrum
-				bestDesign = newDesign
+			if(newPercentage < temporaryPercentage):
+				temporaryDesign = newDesign
+				temporarySpectrum = newSpectrum
+				temporaryPercentage = newPercentage
+				temporaryRoots = newRoots
+		bestDesign = temporaryDesign
+		bestSpectrum = temporarySpectrum
+		bestRoots = temporaryRoots
+		bestPercentage = temporaryPercentage
 		with open('best.txt', 'w') as f:
+		    f.write("\n\n")
 		    f.write(" ".join([str(i) for i in bestDesign.getParameters()]))
 		    f.write("\n")
 		    f.write("\n")
@@ -118,20 +134,21 @@ def SPSA(iterations):
 		    f.write(str(bestPercentage))
 		    f.write("\n")
 		    f.write("\n")
-
 		if(lastParameters==bestDesign.getParameters()):
 			count+=1
 		else:
 			count = 0
 		lastParameters = bestDesign.getParameters()
-		spectrumGraph[i] = bestSpectrum[0:5]
-		if(count==100):
-			L = " ".join([str(i) for i in bestDesign.getParameters()])	
-			file1.writelines(L)
-			file1.writelines("\n\n")
-			L = 	" ".join([str(i) for i in bestSpectrum])
-			file1.writelines(L)
-			file1.writelines("\n\n\n")
+		spectrumGraph[i+1] = bestSpectrum[0:5]
+		if(count==threshold):
+			with open("all.txt" , "a") as file1:
+				file1.write("\n\n")
+				L = " ".join([str(i) for i in bestDesign.getParameters()])	
+				file1.write(L)
+				file1.write("\n\n")
+				L = 	" ".join([str(i) for i in bestSpectrum])
+				file1.write(L)
+				file1.write("\n\n\n")
 			bestDesign = generateRandom()
 			bestRoots = cr(bestDesign.getFunction() , getDomain(bestDesign)) 
 			bestRoots.sort()
@@ -141,5 +158,4 @@ def SPSA(iterations):
 			count = 0
 	print(bestSpectrum)
 	graphSpectrum(spectrumGraph)
-	file1.close()
-SPSA(100)
+SPSA(int(input("Iterations? ")))
