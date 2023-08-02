@@ -1,4 +1,5 @@
 import math
+import sys
 import random
 import numpy as np
 from design import Design
@@ -158,4 +159,8 @@ def SPSA(iterations):
 			count = 0
 	print(bestSpectrum)
 	graphSpectrum(spectrumGraph)
-SPSA(int(input("Iterations? ")))
+if(len(sys.argv)<=1):
+	SPSA(int(input("Iterations? ")))
+else:
+	SPSA(int(sys.argv[1]))
+

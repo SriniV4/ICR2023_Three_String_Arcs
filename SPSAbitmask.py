@@ -1,6 +1,7 @@
 import math
 import random
 import numpy as np
+import sys
 from design import Design
 from design import cheb_roots as cr
 import matplotlib.pyplot as plt
@@ -160,4 +161,7 @@ def SPSA(iterations):
 			count = 0
 	print(bestSpectrum)
 	graphSpectrum(spectrumGraph)
-SPSA(int(input("Iterations? ")))
+if(len(sys.argv)<=1):
+	SPSA(int(input("Iterations? ")))
+else:
+	SPSA(int(sys.argv[1]))
