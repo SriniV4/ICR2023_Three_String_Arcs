@@ -3,10 +3,6 @@
 This project aims to find a design for a 3-string instrument/arc in terms of the tensions (τ), lengths (l), mass densities (μ), and center of mass that produces a set of strictly odd "harmonics." <br>
 The primary focus is on achieving the first 5 harmonics.
 
-## Derivations of Ratios
-
-[Derivations_of_Ratios.pdf](Derivation_of_Ratios.pdf) is a short derivation for the ratios of tensions (τ₁, τ₂, τ₃) in terms of angles θ and γ.
-
 ## design.py
 
 `design.py` is a design class that provides you with the spectral equation of a design given a set of parameters<br>
@@ -23,22 +19,24 @@ To run this program, simply type:
 ```sh
 python3 design.py
 ```
-## guess.py
+## SPSAtwo.py
 
 
-`guess.py` is a hill climbing algorithm (SPSA) used to attempt to find the best design. <br>
-It randomly generates a design to start with (you can provide one via file input as well), and then uses a bitmask to determine which direction to proceed in! 
+`SPSAtwo.py` uses SPSA, a hill climbing algo to find the best design. <br>
+It randomly generates a design to start with (you can provide one via file input as well by modifying the code and uncommenting/commenting out some lines), and then runs a normal SPSA! 
 <br> This file requires `design.py` and all of its imports. 
 <br>No additional imports are required. Running it is as simple as typing:
 ```sh
-python3 guess.py
+python3 SPSAtwo.py
 ```
-## SPSA.py
+<br> Once you run this program, you will get prompted for an input asking for the number of iterations you would like to run. Once it runs all of these iterations, it will then display a graph of the progress from design 1 -> final design.
+## SPSAbitmask.py
 
-`SPSA.py` is similar to `guess.py`, but instead of using a bitmask to determine the direction, it only has two directions, all negative or all positive (0b000... or 0b1111...). <br>
+`SPSAbitmask.py` is similar to `SPSAtwo.py`, but instead of only looking in two directions ( all add or all subtract ), it tries all combinations of adding and subtracting using a bitmask ( where 0 is subtract, and 1 is add ). <br>
 The same imports are required, and to run it, you do:
 
 ```sh
-python3 SPSA.py
+python3 SPSAbitmask.py
 ```
+<br> This program has a similar input/output as `SPSAtwo.py`, but takes a bit longer to run each iteration as internally, its doing 256x more spectra checks than `SPSAtwo.py`!
 Please make sure to have all the necessary files and libraries installed before running the programs. Happy harmonics designing!
