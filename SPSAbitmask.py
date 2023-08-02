@@ -69,6 +69,8 @@ def graphSpectrum(spectrum):
 	for i in range(5):
 		plt.axhline(y = i*2+1, color = colors[i], linestyle = '-')
 		plt.scatter([j for j in range(len(spectrum))] , spectrum[:,i] , color = colors[i])
+	plt.gca().set_xlabel("Iterations")
+	plt.gca().set_ylabel("Spectrum")
 	plt.show()
 def linearFunction(percent):
 	return percent*100 if percent*100<=100 else 100

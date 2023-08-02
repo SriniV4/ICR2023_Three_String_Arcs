@@ -81,10 +81,10 @@ def makeThreeStringDesign(allParams):
 	t1 = t3/(numpy.cos(gamma)*(1 + (numpy.sin(gamma)*numpy.cos(theta)/(numpy.sin(theta)*numpy.cos(gamma)))))
 	return Design(3 , [theta , gamma] , [t1,t2,t3] , densities , lengths , centerMass) 	
 def test():
-	lengths = [5,10,1]
+	lengths = [50,10,1]
 	densities = [0.001, 0.0015, 0.001]
 	tensions = [180, 185, 180]
-	centerMass = 10000
+	centerMass = 0
 	"""
 	lengths = [7.729248288664657, 7.892457169530038, 1]
 	densities = [0.2777940075904079, 0.22263848609368753, 0.8297746591606884]
@@ -111,7 +111,8 @@ def test():
 
 	# Plot the roots as larger purple dots
 	for i in roots:
-		plt.plot(i, 0, 'o', markersize=2, color='purple')
+		plt.plot(i, 0, 'o', markersize=5, color='purple')
+	plt.xlabel("Frequency")
 
 	# Display the plot
 	plt.show()												
