@@ -39,4 +39,5 @@ The same imports are required, and to run it, you do:
 python3 SPSAbitmask.py
 ```
 <br> This program has a similar input/output as `SPSAtwo.py`, but takes a bit longer to run each iteration as internally, its doing 256x more spectra checks than `SPSAtwo.py`!
+<br><br>
 Please make sure to have all the necessary files and libraries installed before running the programs. Happy harmonics designing!
