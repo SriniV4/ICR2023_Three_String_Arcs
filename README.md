@@ -52,5 +52,17 @@ python3 SPSAbitmask.py
 python3 SPSAbitmask.py 10
 ```
 <br><br>
+## Building the Paper and Slides
+The LaTeX source code to build a paper and slide presentation explaining this research are located in the paper/ and slides/ folders, respectively.
+
+To build the PDF paper, inside Paper/, run
+```
+pdflatex main.tex
+```
+
+To build the PDF presentation, inside Presentation/, run
+```
+pdflatex main.tex
+```
 <br><br>
 Please make sure to have all the necessary files and libraries installed before running the programs. Happy harmonics designing!
